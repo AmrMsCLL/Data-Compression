@@ -1,3 +1,6 @@
+import sys
+
+
 class ArithmeticCoding:
     def __init__(self, probabilities):
         self.probabilities = probabilities
@@ -29,8 +32,8 @@ class ArithmeticCoding:
         return ''.join(decoded_message)
 
 
-def main():
-    with open("Input.txt", "r") as f:
+def main(input_file, compressed_file, decompressed_file):
+    with open(input_file, "r") as f:
         lines = f.readlines()
     
     probabilities = {}
@@ -50,17 +53,23 @@ def main():
 
     compressed_code = ac.compress(message)
 
-    with open("Compressed.txt", "w") as f:
+    with open(compressed_file, "w") as f:
         f.write(str(compressed_code))
 
     print(f"Compressed Succesfully")
 
     decompressed_message = ac.decompress(compressed_code, len(message))
 
-    with open("Decompressed.txt", "w") as f:
+    with open(decompressed_file, "w") as f:
         f.write(decompressed_message)
 
     print(f"Decompressed Succesfully")
 
 
-main()
+if __name__ == "__main__":
+    argv = sys.argv[1:]
+    main(
+        argv[0] if len(argv) > 0 else "arithmetic_input.txt",
+        argv[1] if len(argv) > 1 else "compressed.txt",
+        argv[2] if len(argv) > 2 else "decompressed.txt",
+    )

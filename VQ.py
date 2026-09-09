@@ -1,8 +1,7 @@
 import numpy as np
 import cv2
 import json
-import os
-os.chdir(r'd:\University stuff\Y3\Y2T1\Data Compression\Compression Algorithms\VQ')
+import sys
 
 def divide_into_blocks(image, block_size):
     h, w = image.shape
@@ -81,5 +80,12 @@ def decompress_image(compressed_file, output_image):
     cv2.imwrite(output_image, image)
     print(f"Image decompressed and saved to {output_image}")
 
-compress_image('test.png', block_size=4, codebook_size=64, output_file='compressed.json')
-decompress_image('compressed.json', output_image='decompressed_image.png')
+
+if __name__ == "__main__":
+    argv = sys.argv[1:]
+    image_path = argv[0] if len(argv) > 0 else "test.png"
+    compressed_file = argv[1] if len(argv) > 1 else "compressed.json"
+    output_image = argv[2] if len(argv) > 2 else "decompressed.png"
+
+    compress_image(image_path, block_size=4, codebook_size=64, output_file=compressed_file)
+    decompress_image(compressed_file, output_image)

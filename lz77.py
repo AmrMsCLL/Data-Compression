@@ -1,3 +1,6 @@
+import sys
+
+
 class LZ77:
     def __init__(self, window_size=20):
         self.window_size = window_size
@@ -46,11 +49,19 @@ class LZ77:
         
         return ''.join(decompressed_data)
 
-data = "abaababaabbbbbbbbbbbba"
-lz77 = LZ77(window_size=20)
-compressed = lz77.compress(data)
-decompressed = lz77.decompress(compressed)
 
-print("Original:", data)
-print("Compressed:", compressed)
-print("Decompressed:", decompressed)
+if __name__ == "__main__":
+    if len(sys.argv) > 1:
+        with open(sys.argv[1], "r", encoding="utf-8") as file:
+            data = file.read()
+    else:
+        data = "abaababaabbbbbbbbbbbba"
+
+    lz77 = LZ77(window_size=20)
+    compressed = lz77.compress(data)
+    decompressed = lz77.decompress(compressed)
+
+    print("Original:", data)
+    print("Compressed:", compressed)
+    print("Decompressed:", decompressed)
+    print("Round-trip OK:", decompressed == data)

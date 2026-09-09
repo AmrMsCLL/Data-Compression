@@ -1,3 +1,6 @@
+import sys
+
+
 class HuffmanNode:
     def __init__(self, char, freq):
         self.char = char
@@ -69,15 +72,18 @@ def huffman_decompress(input_file, output_file):
             decoded_text.append(reverse_codes[current_code])
             current_code = ""  
 
-    with open(output_file, 'w') as file:
+    with open(output_file, 'w', newline='') as file:
         file.write(''.join(decoded_text))
 
-input_file = "input.txt"
-compressed_file = "compressed.txt"
-decompressed_file = "decompressed.txt"
 
-huffman_compress(input_file, compressed_file)
-print(f"Compressed data written to {compressed_file}.")
+if __name__ == "__main__":
+    argv = sys.argv[1:]
+    input_file = argv[0] if len(argv) > 0 else "input.txt"
+    compressed_file = argv[1] if len(argv) > 1 else "compressed.txt"
+    decompressed_file = argv[2] if len(argv) > 2 else "decompressed.txt"
 
-huffman_decompress(compressed_file, decompressed_file)
-print(f"Decompressed data written to {decompressed_file}.")
+    huffman_compress(input_file, compressed_file)
+    print(f"Compressed data written to {compressed_file}.")
+
+    huffman_decompress(compressed_file, decompressed_file)
+    print(f"Decompressed data written to {decompressed_file}.")

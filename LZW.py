@@ -1,3 +1,6 @@
+import sys
+
+
 def lzw_compress(input_file_path, output_file_path):
     dictionary = {chr(i): i for i in range(128)}
     result = []
@@ -45,15 +48,17 @@ def lzw_decompress(input_file_path, output_file_path):
         dictionary[len(dictionary)] = w + entry[0]
         w = entry
 
-    with open(output_file_path, 'w', encoding='utf-8') as file:
+    with open(output_file_path, 'w', encoding='utf-8', newline='') as file:
         file.write("".join(result))
 
     print("Decompression complete. Decompressed data saved to", output_file_path)
 
-input_file = r'C:\Users\AmrSherieyCLL\Desktop\Compression\Input.txt'
-compressed_file = r'C:\Users\AmrSherieyCLL\Desktop\Compression\CompressedOut.txt'
-decompressed_file = r'C:\Users\AmrSherieyCLL\Desktop\Compression\DeCompressedOut.txt'
 
-lzw_compress(input_file, compressed_file)
+if __name__ == "__main__":
+    argv = sys.argv[1:]
+    input_file = argv[0] if len(argv) > 0 else "input.txt"
+    compressed_file = argv[1] if len(argv) > 1 else "compressed.txt"
+    decompressed_file = argv[2] if len(argv) > 2 else "decompressed.txt"
 
-lzw_decompress(compressed_file, decompressed_file)
+    lzw_compress(input_file, compressed_file)
+    lzw_decompress(compressed_file, decompressed_file)
